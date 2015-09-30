@@ -9,7 +9,7 @@ pub fn time_ns() -> u64 {
 macro_rules! stack {
     ($name:expr, $work:expr) => {
         {
-            let work = {|| $work};
+            let mut work = {|| $work};
             println!("Push {}", $name);
             let before = $crate::time_ns();
             let value = work();
