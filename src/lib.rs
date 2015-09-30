@@ -1,7 +1,7 @@
 extern crate time;
 use time::precise_time_ns;
 
-fn time_ns() -> u64 {
+pub fn time_ns() -> u64 {
     precise_time_ns()
 }
 
