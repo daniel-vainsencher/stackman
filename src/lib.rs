@@ -1,11 +1,10 @@
 extern crate time;
 
-use time::precise_time_ns;
-
 #[macro_export]
 macro_rules! stack {
     ($name:expr, $work:expr) => {
         {
+            use time::precise_time_ns;
             let work = {|| $work};
             println!("Push {}", $name);
             let before = precise_time_ns();
