@@ -9,13 +9,18 @@ macro_rules! stack {
     ($name:expr, $work:expr) => {
         {
             use std::io::Write;
-            let mut stderr = std::io::stderr();
             let mut work = {|| $work};
-            writeln!(&mut stderr, "Push {}", $name).unwrap();
-            let before = $crate::time_ns();
+            let mut before = 0;
+            let mut stderr = std::io::stderr();
+            if cfg!(debug_assertions) {
+                writeln!(&mut stderr, "Push {}", $name).unwrap();
+                before = $crate::time_ns();
+            }
             let value = work();
-            let after = $crate::time_ns();
-            writeln!(&mut stderr, "Pop {} spent {}ns.", $name, after-before).unwrap();
+            if cfg!(debug_assertions) {
+                let after = $crate::time_ns();
+                writeln!(&mut stderr, "Pop {} spent {}ns.", $name, after-before).unwrap();
+            }
             value
         }
     }
